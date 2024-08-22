@@ -2,6 +2,7 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
+import { fetchAPI } from "@/lib/fetch";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { useState } from "react";
@@ -58,7 +59,15 @@ export default function SignUp() {
       });
 
       if (completeSignUp.status === "complete") {
-        // todo create a db user
+        // create user in db
+        await fetchAPI("/(api)/user", {
+          method: "POST",
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            clerkId: completeSignUp.createdUserId,
+          }),
+        });
 
         await setActive({ session: completeSignUp.createdSessionId });
         setVerification({ ...verification, state: "success" });
@@ -204,7 +213,8 @@ export default function SignUp() {
             <CustomButton
               title="Browser Home"
               onPress={() => {
-                router.replace("/(root)/(tabs)/home");
+                setShowSuccessModal(false);
+                router.push("/(root)/(tabs)/home");
               }}
               className="mt-5"
             />
