@@ -1,6 +1,6 @@
 import CustomButton from "@/components/CustomButton";
 import { onboarding } from "@/constants";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { useRef, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,7 +18,9 @@ export default function OnBoarding() {
         className="w-full flex justify-end items-end p-5"
         onPress={() => router.replace("/(auth)/sign-up")}
       >
-        <Text className="text-black text-md font-JakartaBold">Skip</Text>
+        <Text className="text-black text-md font-JakartaBold">
+          <Link href="/(auth)/sign-up">Skip</Link>
+        </Text>
       </TouchableOpacity>
       <Swiper
         ref={swiperRef}
